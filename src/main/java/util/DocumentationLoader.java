@@ -28,8 +28,10 @@ public class DocumentationLoader{
         List<String> lines = readFileInList(fileName);
 
         List<DocumentationSection> docSections = new ArrayList();
+        int line = 1;
         for(String l: lines){
-            docSections.add(new DocumentationSection(l));
+            docSections.add(new DocumentationSection(l, line));
+            line ++;
         }
         return new Documentation(docSections);
     }

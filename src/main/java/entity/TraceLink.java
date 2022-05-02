@@ -3,18 +3,18 @@ package entity;
 import util.TraceLinkCalculator;
 
 public class TraceLink implements Comparable<TraceLink>{
-    private ModelEntity entity;
+    private ModelEntity modelEntity;
     private DocumentationSection docSection;
     private double confidence;
 
     public TraceLink(ModelEntity entity, DocumentationSection docSection, double confidence) {
-        this.entity = entity;
+        this.modelEntity = entity;
         this.docSection = docSection;
         this.confidence = confidence;
     }
 
-    public ModelEntity getEntity() {
-        return entity;
+    public ModelEntity getModelEntity() {
+        return modelEntity;
     }
 
     public DocumentationSection getDocSection() {

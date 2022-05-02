@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import entity.Documentation;
 import entity.DocumentationSection;
 import entity.ModelEntity;
 import entity.TraceLink;
@@ -12,7 +13,6 @@ import org.apache.commons.text.similarity.LevenshteinDistance;
 
 
 public class TraceLinkCalculator {
-    //UserDBAdapter
     private Boolean equalArray(String[] array1, String[] array2){
         return IntStream.range(0, array1.length).allMatch(i -> array1[i].equalsIgnoreCase(array2[i]));
     }
@@ -34,7 +34,7 @@ public class TraceLinkCalculator {
         return str1.equalsIgnoreCase(str2);
     }
 
-    public static Boolean isLevenshteinSimilar(String str1, String str2, double threshold){
+    private static Boolean isLevenshteinSimilar(String str1, String str2, double threshold){
         LevenshteinDistance levenshteinDistance = new LevenshteinDistance();
         int distance = levenshteinDistance.apply(str1, str2);
         double normalizedDistance = (double)distance / (Math.max(str1.length(), str2.length()));
@@ -67,5 +67,33 @@ public class TraceLinkCalculator {
             }
         }
         return new TraceLink(modelEntity, documentationSection, matches);
+    }
+
+    public static List<TraceLink> calculateTraceLinks(Documentation documentation, List<ModelEntity> modelEntities, double confidenceThreshold){
+        List<TraceLink> traceLinks = new ArrayList<>();
+
+        for(DocumentationSection docuSection: documentation.getDocumentationSections()){
+            for(ModelEntity modelEntity: modelEntities){
+                TraceLink traceLink = TraceLinkCalculator.calculateTraceLink(modelEntity, docuSection, 1.0);
+                if(traceLink.getConfidence() > confidenceThreshold){
+                    traceLinks.add(traceLink);
+                }
+            }
+        }
+        return traceLinks;
+    }
+
+    public static List<TraceLink> calculateTraceLinks(List<DocumentationSection> documentationSections, List<ModelEntity> modelEntities, double confidenceThreshold){
+        List<TraceLink> traceLinks = new ArrayList<>();
+
+        for(DocumentationSection docuSection: documentationSections){
+            for(ModelEntity modelEntity: modelEntities){
+                TraceLink traceLink = TraceLinkCalculator.calculateTraceLink(modelEntity, docuSection, 1.0);
+                if(traceLink.getConfidence() > confidenceThreshold){
+                    traceLinks.add(traceLink);
+                }
+            }
+        }
+        return traceLinks;
     }
 }

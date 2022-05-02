@@ -21,7 +21,7 @@ public class ModelLoader{
         for(IModelInstance modelInstance: instances){
             List<String> nameParts = modelInstance.getNameParts().toList();
             nameParts.remove(nameParts.size()-1);
-            ModelEntity entity = new ModelEntity(modelInstance.getFullName(), nameParts);
+            ModelEntity entity = new ModelEntity(modelInstance.getFullName(), nameParts, modelInstance.getUid());
             entities.add(entity);
         }
 
