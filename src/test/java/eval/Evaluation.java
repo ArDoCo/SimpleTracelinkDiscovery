@@ -2,7 +2,6 @@ package eval;
 
 import edu.kit.kastel.mcse.ardoco.core.model.IModelConnector;
 import edu.kit.kastel.mcse.ardoco.core.model.pcm.PcmXMLModelConnector;
-import entity.Documentation;
 import entity.ModelEntity;
 import entity.TraceLink;
 import org.junit.Test;
@@ -31,8 +30,8 @@ public class Evaluation {
         List<ModelEntity> modelEntities = modelLoader.modelEntityList();
 
         //load documentation
-        Documentation doc = DocumentationLoader.loadDocumentationFromFile(documentationPath);
-        List<TraceLink> traceLinks = TraceLinkCalculator.calculateTraceLinks(doc, modelEntities, 0.0);
+        DocumentationLoader documentationLoader = new DocumentationLoader(new File(documentationPath));
+        List<TraceLink> traceLinks = TraceLinkCalculator.calculateTraceLinks(documentationLoader.getDocumentationSections(), modelEntities, 0.0);
         Collections.sort(traceLinks, Collections.reverseOrder());
 
         //evaluate
@@ -55,13 +54,11 @@ public class Evaluation {
         System.out.println("precision: " + evaluationResult.precision());
         System.out.println("recall: " + evaluationResult.recall());
         System.out.println("f1-score: " + evaluationResult.f1());
-
     }
 
     private Boolean isCorrectLink(GoldStandard goldstandard, TraceLink tracelink){
         int lineNumber = tracelink.getDocSection().getLineNumber();
         String modelEntityId = tracelink.getModelEntity().getId();
-
         return goldstandard.getModelInstances(lineNumber).contains(modelEntityId);
     }
 }
