@@ -1,7 +1,4 @@
 package entity;
-
-import util.TraceLinkCalculator;
-
 public class TraceLink implements Comparable<TraceLink>{
     private ModelEntity modelEntity;
     private DocumentationSection docSection;

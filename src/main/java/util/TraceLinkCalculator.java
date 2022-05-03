@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import entity.Documentation;
 import entity.DocumentationSection;
 import entity.ModelEntity;
 import entity.TraceLink;
@@ -13,7 +12,11 @@ import org.apache.commons.text.similarity.LevenshteinDistance;
 
 
 public class TraceLinkCalculator {
-    private Boolean equalArray(String[] array1, String[] array2){
+
+    private TraceLinkCalculator() {
+        throw new IllegalStateException("Utility class, no instantiation provided");
+    }
+    private static Boolean equalArray(String[] array1, String[] array2){
         return IntStream.range(0, array1.length).allMatch(i -> array1[i].equalsIgnoreCase(array2[i]));
     }
     private static double matchNgram(String[] ngram1, String[] ngram2) {
@@ -68,21 +71,6 @@ public class TraceLinkCalculator {
         }
         return new TraceLink(modelEntity, documentationSection, matches);
     }
-
-    public static List<TraceLink> calculateTraceLinks(Documentation documentation, List<ModelEntity> modelEntities, double confidenceThreshold){
-        List<TraceLink> traceLinks = new ArrayList<>();
-
-        for(DocumentationSection docuSection: documentation.getDocumentationSections()){
-            for(ModelEntity modelEntity: modelEntities){
-                TraceLink traceLink = TraceLinkCalculator.calculateTraceLink(modelEntity, docuSection, 1.0);
-                if(traceLink.getConfidence() > confidenceThreshold){
-                    traceLinks.add(traceLink);
-                }
-            }
-        }
-        return traceLinks;
-    }
-
     public static List<TraceLink> calculateTraceLinks(List<DocumentationSection> documentationSections, List<ModelEntity> modelEntities, double confidenceThreshold){
         List<TraceLink> traceLinks = new ArrayList<>();
 

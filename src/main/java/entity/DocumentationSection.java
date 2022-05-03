@@ -3,16 +3,16 @@ package entity;
 public class DocumentationSection
 {
     private String text;
-    private int lineNumber;
-    public DocumentationSection(String text, int lineNumber) {
+    private int sectionNumber;
+    public DocumentationSection(String text, int sectionNumber) {
         this.text = text;
-        this.lineNumber = lineNumber;
+        this.sectionNumber = sectionNumber;
     }
 
     public String getText() {
         return text;
     }
-    public int getLineNumber() {
-        return lineNumber;
+    public int getSectionNumber() {
+        return sectionNumber;
     }
 }

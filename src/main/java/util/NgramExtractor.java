@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class NgramExtractor {
+
+    private NgramExtractor() {
+        throw new IllegalStateException("Utility class, no instantiation provided");
+    }
     public static List<String[]> ngrams(String string, int n){
 
         List<String[]> ngramList = new ArrayList<>();

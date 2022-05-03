@@ -57,8 +57,8 @@ public class Evaluation {
     }
 
     private Boolean isCorrectLink(GoldStandard goldstandard, TraceLink tracelink){
-        int lineNumber = tracelink.getDocSection().getLineNumber();
+        int sectionNumber = tracelink.getDocSection().getSectionNumber();
         String modelEntityId = tracelink.getModelEntity().getId();
-        return goldstandard.getModelInstances(lineNumber).contains(modelEntityId);
+        return goldstandard.getModelInstances(sectionNumber).contains(modelEntityId);
     }
 }
