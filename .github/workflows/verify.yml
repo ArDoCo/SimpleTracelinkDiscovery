@@ -6,17 +6,23 @@ on:
   pull_request:
     branches: [ develop ]
 
-jobs:
-  verify:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
+jobs:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 18
-      uses: actions/setup-java@v1
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
       with:
-        java-version: 18
-
+        distribution: 'zulu'
+        java-version: 17
+    - name: maven-settings-xml-action
+      uses: whelk-io/maven-settings-xml-action@v20
+      with:
+        servers: '[{ "id": "github", "username": "x-access-token", "password": "${{ secrets.GITHUB_TOKEN }}" }, { "id": "github-informalin", "username": "x-access-token", "password": "${{ secrets.GITHUB_TOKEN }}" }]'
     - name: verify
-      run: mvn verify
+      run: mvn -B verify --file pom.xml
