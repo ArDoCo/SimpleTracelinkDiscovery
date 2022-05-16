@@ -33,7 +33,7 @@ public class DocumentationLoader{
     public List<DocumentationSection> getDocumentationSections() {
         return documentationSections;
     }
-    public DocumentationSection getDocumentationSection(int i){
-        return documentationSections.get(i);
+    public DocumentationSection getDocumentationSection(int sectionNumber){
+        return documentationSections.get((sectionNumber - 1));
     }
 }

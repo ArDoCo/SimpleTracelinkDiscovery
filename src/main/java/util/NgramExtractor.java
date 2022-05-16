@@ -20,12 +20,12 @@ public class NgramExtractor {
         return ngramList;
     }
 
-    public static List<String[]> ngrams(List<String> words, int n){
+    public static List<String[]> ngrams(List<String> strings, int n){
 
         List<String[]> ngramList = new ArrayList<>();
 
-        for(int i = 0; i <= (words.size() - n); i++){
-            ngramList.add(words.subList(i, i+n).toArray(new String[0]));
+        for(int i = 0; i <= (strings.size() - n); i++){
+            ngramList.add(strings.subList(i, i+n).toArray(new String[0]));
         }
         return ngramList;
     }

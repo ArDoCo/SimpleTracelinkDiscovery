@@ -6,9 +6,12 @@ import java.util.stream.IntStream;
 
 import entity.DocumentationSection;
 import entity.ModelEntity;
+import entity.SimilarityMeasure;
 import entity.TraceLink;
 import org.apache.commons.text.similarity.JaroWinklerSimilarity;
 import org.apache.commons.text.similarity.LevenshteinDistance;
+
+import static entity.SimilarityMeasure.*;
 
 
 public class TraceLinkCalculator {
@@ -19,7 +22,8 @@ public class TraceLinkCalculator {
     private static Boolean equalArray(String[] array1, String[] array2){
         return IntStream.range(0, array1.length).allMatch(i -> array1[i].equalsIgnoreCase(array2[i]));
     }
-    private static double matchNgram(String[] ngram1, String[] ngram2) {
+    private static double matchNgram(String[] ngram1, String[] ngram2, SimilarityMeasure similarityMeasure,
+                                     double similarityThreshold) {
         double match = 0;
 
         if(ngram1.length != ngram2.length){
@@ -27,16 +31,15 @@ public class TraceLinkCalculator {
         }
 
         for (int i = 0; i<ngram1.length; i++){
-                match += isLevenshteinSimilar(ngram1[i], ngram2[i], 0.1) ? 1 : 0;
+            if(similarityMeasure.equals(LEVENSHTEIN)) {
+                match += isLevenshteinSimilar(ngram1[i], ngram2[i], similarityThreshold) ? 1 : 0;
+            } else {
+                match += isJaroWinklerSimilar(ngram1[i], ngram2[i], similarityThreshold) ? 1 : 0;
+            }
         }
 
         return (match / ngram1.length);
     }
-
-    private static Boolean isStringSimilar(String str1, String str2){
-        return str1.equalsIgnoreCase(str2);
-    }
-
     private static Boolean isLevenshteinSimilar(String str1, String str2, double threshold){
         LevenshteinDistance levenshteinDistance = new LevenshteinDistance();
         int distance = levenshteinDistance.apply(str1, str2);
@@ -49,8 +52,8 @@ public class TraceLinkCalculator {
         JaroWinklerSimilarity jaroWinklerSimilarity = new JaroWinklerSimilarity();
         return jaroWinklerSimilarity.apply(str1, str2) > threshold;
     }
-    public static TraceLink calculateTraceLink(ModelEntity modelEntity, DocumentationSection documentationSection, double threshold) {
-
+    public static TraceLink calculateTraceLink(ModelEntity modelEntity, DocumentationSection documentationSection,
+                                               SimilarityMeasure similarityMeasure, double similarityThreshold) {
         int matches = 0;
 
         List<String[]> modelEntityNgrams = new ArrayList<>();
@@ -64,20 +67,24 @@ public class TraceLinkCalculator {
 
         for(String[] ngram2: modelEntityNgrams) {
             for (String[] ngram1 : documentationSectionNgrams) {
-                if(ngram1.length == ngram2.length && matchNgram(ngram1, ngram2)>= threshold){
+                if(ngram1.length == ngram2.length &&
+                        matchNgram(ngram1, ngram2, similarityMeasure, similarityThreshold)>= 1.0){
                     matches +=1;
                 }
             }
         }
         return new TraceLink(modelEntity, documentationSection, matches);
     }
-    public static List<TraceLink> calculateTraceLinks(List<DocumentationSection> documentationSections, List<ModelEntity> modelEntities, double confidenceThreshold){
+    public static List<TraceLink> calculateTraceLinks(List<DocumentationSection> documentationSections,
+                                                      List<ModelEntity> modelEntities, double matchesThreshold,
+                                                      SimilarityMeasure similarityMeasure, double similarityThreshold){
         List<TraceLink> traceLinks = new ArrayList<>();
 
         for(DocumentationSection docuSection: documentationSections){
             for(ModelEntity modelEntity: modelEntities){
-                TraceLink traceLink = TraceLinkCalculator.calculateTraceLink(modelEntity, docuSection, 1.0);
-                if(traceLink.getConfidence() > confidenceThreshold){
+                TraceLink traceLink = TraceLinkCalculator.calculateTraceLink(modelEntity, docuSection,
+                        LEVENSHTEIN, 0.1);
+                if(traceLink.getMatches() > matchesThreshold){
                     traceLinks.add(traceLink);
                 }
             }
