@@ -23,7 +23,9 @@ public class DocumentationLoader{
             int i = 1;
             while (scanner.hasNextLine()) {
                 String nextLine = scanner.nextLine();
-                documentationSections.add(new DocumentationSection(nextLine, i++));
+                if(!nextLine.isBlank()) {
+                    documentationSections.add(new DocumentationSection(nextLine, i++));
+                }
             }
             scanner.close();
         } catch (FileNotFoundException e) {
