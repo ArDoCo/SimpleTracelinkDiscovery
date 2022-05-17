@@ -47,7 +47,7 @@ public class NgramExtractorTest {
     }
 
     @Test
-    public void ngrams_nIsZero_emptyNgramList(){
+    public void ngrams_nIsZero_throwIllegalArgumentException(){
         ArrayList testList = new ArrayList( Arrays.asList(testArrays.get(2).split(" ")));
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -60,7 +60,7 @@ public class NgramExtractorTest {
     }
 
     @Test
-    public void ngrams1_nIsZero_emptyNgramList(){
+    public void ngrams1_nIsZero_throwIllegalArgumentException(){
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             NgramExtractor.ngrams(testArrays.get(2), 0);
         });
