@@ -10,7 +10,7 @@ For string comparison to match n-grams or entity names, the Levenshtein Distance
 If this value is greater than or equal to a defined similarity threshold, a match is counted. A threshold of 1.0 means that both strings or n-grams must be identical. Cases are always ignored. 
 Analogously, the Jaro-Winkler Similarity can be used instead of the normalized Levenshtein Distance. 
 
-## Resulsts
+## Evaluation Results
 We evaluated the traceability link recovery on 4 open source projects. 
 The table below shows the results with a match count threshold of 1 and a similarity threshold of 0.9 for the normalized Levenshtein Distance. 
 
