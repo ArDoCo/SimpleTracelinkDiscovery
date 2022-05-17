@@ -1,8 +1,6 @@
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import util.DocumentationLoader;
 
 import java.io.File;

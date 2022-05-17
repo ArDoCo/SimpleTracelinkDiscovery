@@ -1,7 +1,6 @@
 import org.apache.logging.log4j.core.util.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import util.NgramExtractor;
 
 import java.util.ArrayList;
