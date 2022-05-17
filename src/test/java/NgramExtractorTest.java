@@ -1,16 +1,18 @@
-import org.apache.logging.log4j.core.util.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import util.NgramExtractor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class NgramExtractorTest {
     private static List<String> testArrays;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         testArrays = new ArrayList<>();
         testArrays.add("");
@@ -21,40 +23,51 @@ public class NgramExtractorTest {
     @Test
     public void ngrams_emptyString_emptyNgramList(){
         List<String[]> ngrams = NgramExtractor.ngrams(testArrays.get(0), 3);
-        Assert.isEmpty(ngrams);
+        Assertions.assertEquals(0, ngrams.size());
     }
 
     @Test
     public void ngrams_emptyStringList_emptyNgramList(){
         ArrayList testList = new ArrayList( Arrays.asList(testArrays.get(0).split(" ")));
         List<String[]> ngrams = NgramExtractor.ngrams(testList, 3);
-        Assert.isEmpty(ngrams);
+        Assertions.assertEquals(0, ngrams.size());
     }
 
     @Test
     public void ngrams_notEnoughWordsInString_emptyNgramList(){
         List<String[]> ngrams = NgramExtractor.ngrams(testArrays.get(1), 3);
-        Assert.isEmpty(ngrams);
+        Assertions.assertEquals(0, ngrams.size());
     }
 
     @Test
     public void ngrams_notEnoughWordsInList_emptyNgramList(){
         ArrayList testList = new ArrayList( Arrays.asList(testArrays.get(1).split(" ")));
         List<String[]> ngrams = NgramExtractor.ngrams(testList, 3);
-        Assert.isEmpty(ngrams);
+        Assertions.assertEquals(0, ngrams.size());
     }
 
     @Test
     public void ngrams_nIsZero_emptyNgramList(){
         ArrayList testList = new ArrayList( Arrays.asList(testArrays.get(2).split(" ")));
-        List<String[]> ngrams = NgramExtractor.ngrams(testList, 0);
-        Assert.isEmpty(ngrams);
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            NgramExtractor.ngrams(testList, 0);
+        });
+
+        String expectedMessage = "n must be greater than 0";
+        String actualMessage = exception.getMessage();
+        Assertions.assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
     public void ngrams1_nIsZero_emptyNgramList(){
-        List<String[]> ngrams = NgramExtractor.ngrams(testArrays.get(2), 3);
-        Assert.isEmpty(ngrams);
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            NgramExtractor.ngrams(testArrays.get(2), 0);
+        });
+
+        String expectedMessage = "n must be greater than 0";
+        String actualMessage = exception.getMessage();
+        Assertions.assertTrue(actualMessage.contains(expectedMessage));
     }
 
 

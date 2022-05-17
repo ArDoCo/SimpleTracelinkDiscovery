@@ -10,6 +10,9 @@ public class NgramExtractor {
         throw new IllegalStateException("Utility class, no instantiation provided");
     }
     public static List<String[]> ngrams(String string, int n){
+        if(n==0){
+            throw new IllegalArgumentException("n must be greater than 0");
+        }
 
         List<String[]> ngramList = new ArrayList<>();
         List<String> words = new ArrayList<>(Arrays.asList(string.split(" ")));
@@ -21,7 +24,9 @@ public class NgramExtractor {
     }
 
     public static List<String[]> ngrams(List<String> strings, int n){
-
+        if(n==0){
+            throw new IllegalArgumentException("n must be greater than 0");
+        }
         List<String[]> ngramList = new ArrayList<>();
 
         for(int i = 0; i <= (strings.size() - n); i++){
