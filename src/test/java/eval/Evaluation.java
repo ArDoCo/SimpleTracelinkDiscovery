@@ -3,6 +3,7 @@ package eval;
 import edu.kit.kastel.mcse.ardoco.core.model.IModelConnector;
 import edu.kit.kastel.mcse.ardoco.core.model.pcm.PcmXMLModelConnector;
 import entity.ModelEntity;
+import entity.SimilarityMeasure;
 import entity.TraceLink;
 import org.junit.Test;
 import util.DocumentationLoader;
@@ -14,11 +15,13 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import static entity.SimilarityMeasure.*;
+
 public class Evaluation {
     
-    private String repoFilePath = "./src/test/resources/teastore/original_model/teastore.repository";
-    private String goldstandardPath = "./src/test/resources/teastore/goldstandard.csv";
-    private String documentationPath = "./src/test/resources/teastore/teastore.txt";
+    private String repoFilePath = "./src/test/resources/mediastore/original_model/ms.repository";
+    private String goldstandardPath = "./src/test/resources/mediastore/goldstandard.csv";
+    private String documentationPath = "./src/test/resources/mediastore/mediastore.txt";
 
     @Test
     public void evaluate() throws ReflectiveOperationException, IOException {
@@ -31,7 +34,8 @@ public class Evaluation {
 
         //load documentation
         DocumentationLoader documentationLoader = new DocumentationLoader(new File(documentationPath));
-        List<TraceLink> traceLinks = TraceLinkCalculator.calculateTraceLinks(documentationLoader.getDocumentationSections(), modelEntities, 0.0);
+        List<TraceLink> traceLinks = TraceLinkCalculator.calculateTraceLinks(documentationLoader.getDocumentationSections(),
+                modelEntities, 0.0, LEVENSHTEIN, 0.9);
         Collections.sort(traceLinks, Collections.reverseOrder());
 
         //evaluate

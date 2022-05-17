@@ -19,9 +19,6 @@ public class TraceLinkCalculator {
     private TraceLinkCalculator() {
         throw new IllegalStateException("Utility class, no instantiation provided");
     }
-    private static Boolean equalArray(String[] array1, String[] array2){
-        return IntStream.range(0, array1.length).allMatch(i -> array1[i].equalsIgnoreCase(array2[i]));
-    }
     private static double matchNgram(String[] ngram1, String[] ngram2, SimilarityMeasure similarityMeasure,
                                      double similarityThreshold) {
         double match = 0;
@@ -32,9 +29,9 @@ public class TraceLinkCalculator {
 
         for (int i = 0; i<ngram1.length; i++){
             if(similarityMeasure.equals(LEVENSHTEIN)) {
-                match += isLevenshteinSimilar(ngram1[i], ngram2[i], similarityThreshold) ? 1 : 0;
+                match += isLevenshteinSimilar(ngram1[i].toLowerCase(), ngram2[i].toLowerCase(), similarityThreshold) ? 1 : 0;
             } else {
-                match += isJaroWinklerSimilar(ngram1[i], ngram2[i], similarityThreshold) ? 1 : 0;
+                match += isJaroWinklerSimilar(ngram1[i].toLowerCase(), ngram2[i].toLowerCase(), similarityThreshold) ? 1 : 0;
             }
         }
 
@@ -45,12 +42,12 @@ public class TraceLinkCalculator {
         int distance = levenshteinDistance.apply(str1, str2);
         double normalizedDistance = (double)distance / (Math.max(str1.length(), str2.length()));
 
-        return normalizedDistance < threshold;
+        return (1.0 - normalizedDistance) >= threshold;
     }
 
     private static Boolean isJaroWinklerSimilar(String str1, String str2, double threshold){
         JaroWinklerSimilarity jaroWinklerSimilarity = new JaroWinklerSimilarity();
-        return jaroWinklerSimilarity.apply(str1, str2) > threshold;
+        return jaroWinklerSimilarity.apply(str1, str2) >= threshold;
     }
     public static TraceLink calculateTraceLink(ModelEntity modelEntity, DocumentationSection documentationSection,
                                                SimilarityMeasure similarityMeasure, double similarityThreshold) {
