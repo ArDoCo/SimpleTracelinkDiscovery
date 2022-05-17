@@ -76,15 +76,15 @@ public class TraceLinkCalculator {
         return new TraceLink(modelEntity, documentationSection, matches);
     }
     public static List<TraceLink> calculateTraceLinks(List<DocumentationSection> documentationSections,
-                                                      List<ModelEntity> modelEntities, double matchesThreshold,
+                                                      List<ModelEntity> modelEntities, double matchNumberThreshold,
                                                       SimilarityMeasure similarityMeasure, double similarityThreshold){
         List<TraceLink> traceLinks = new ArrayList<>();
 
         for(DocumentationSection docuSection: documentationSections){
             for(ModelEntity modelEntity: modelEntities){
                 TraceLink traceLink = TraceLinkCalculator.calculateTraceLink(modelEntity, docuSection,
-                        LEVENSHTEIN, 0.1);
-                if(traceLink.getMatches() > matchesThreshold){
+                        similarityMeasure, similarityThreshold);
+                if(traceLink.getMatches() > matchNumberThreshold){
                     traceLinks.add(traceLink);
                 }
             }
