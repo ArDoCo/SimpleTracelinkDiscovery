@@ -5,10 +5,13 @@ import entity.DocumentationSection;
 import java.util.List;
 import java.util.*;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DocumentationLoader{
 
     private File documentationFile;
+    private final static Logger LOGGER = Logger.getLogger(DocumentationLoader.class.getName());
     private List<DocumentationSection> documentationSections;
 
     public DocumentationLoader(File documentationFile) {
@@ -29,7 +32,7 @@ public class DocumentationLoader{
             }
             scanner.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, "Failed to load or find file.", e);
         }
     }
     public List<DocumentationSection> getDocumentationSections() {
