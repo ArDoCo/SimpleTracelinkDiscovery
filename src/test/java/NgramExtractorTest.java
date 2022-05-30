@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class NgramExtractorTest {
+class NgramExtractorTest {
     private static List<String> testArrays;
 
     @BeforeAll

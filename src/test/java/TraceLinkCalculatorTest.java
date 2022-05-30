@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class TraceLinkCalculatorTest {
+class TraceLinkCalculatorTest {
     @ParameterizedTest
     @EnumSource(SimilarityMeasure.class)
     void calculateTraceLinks_entityNameInText_matchesEqualsOne(SimilarityMeasure measure){

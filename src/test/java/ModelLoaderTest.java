@@ -8,7 +8,7 @@ import util.ModelLoader;
 import java.io.File;
 import java.io.IOException;
 
-public class ModelLoaderTest {
+class ModelLoaderTest {
     public static ModelLoader modelLoader;
     @BeforeAll
     public static void setUp() throws ReflectiveOperationException, IOException {

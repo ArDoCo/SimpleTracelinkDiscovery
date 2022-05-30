@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 import util.DocumentationLoader;
 
 import java.io.File;
-
-public class DocumentationLoaderTest {
+class DocumentationLoaderTest {
     public static DocumentationLoader documentationLoader;
 
     @BeforeAll
