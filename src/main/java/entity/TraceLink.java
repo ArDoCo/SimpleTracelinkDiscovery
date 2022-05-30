@@ -43,8 +43,4 @@ public class TraceLink implements Comparable<TraceLink>{
                 this.getModelEntity().getId().equals(t.getModelEntity().getId()));
     }
 
-    @Override
-    public int hashCode(){
-        return this.hashCode();
-    }
 }
