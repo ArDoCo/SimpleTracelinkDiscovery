@@ -3,16 +3,20 @@ import entity.ModelEntity;
 import entity.SimilarityMeasure;
 import entity.TraceLink;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import util.NgramExtractor;
 import util.TraceLinkCalculator;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class TraceLinkCalculatorTest {
     @ParameterizedTest
     @EnumSource(SimilarityMeasure.class)
-    public void calculateTraceLinks_entityNameInText_matchesEqualsOne(SimilarityMeasure measure){
+    void calculateTraceLinks_entityNameInText_matchesEqualsOne(SimilarityMeasure measure){
         List<String> entityNameParts = new ArrayList<>();
         entityNameParts.add("Test");
         entityNameParts.add("Entity");
@@ -25,7 +29,7 @@ public class TraceLinkCalculatorTest {
 
     @ParameterizedTest
     @EnumSource(SimilarityMeasure.class)
-    public void calculateTraceLinks_entityNotInText_matchesEqualsZero(SimilarityMeasure measure){
+    void calculateTraceLinks_entityNotInText_matchesEqualsZero(SimilarityMeasure measure){
         List<String> entityNameParts = new ArrayList<>();
         entityNameParts.add("Another");
         entityNameParts.add("Entity");
@@ -38,7 +42,7 @@ public class TraceLinkCalculatorTest {
 
     @ParameterizedTest
     @EnumSource(SimilarityMeasure.class)
-    public void calculateTraceLinks_ignoreCases_matchesEqualsZero(SimilarityMeasure measure){
+    void calculateTraceLinks_ignoreCases_matchesEqualsZero(SimilarityMeasure measure){
         List<String> entityNameParts = new ArrayList<>();
         entityNameParts.add("Test");
         entityNameParts.add("Entity");
@@ -51,7 +55,7 @@ public class TraceLinkCalculatorTest {
 
     @ParameterizedTest
     @EnumSource(SimilarityMeasure.class)
-    public void calculateTraceLinks_bigramInText_matchesEqualsOne(SimilarityMeasure measure){
+    void calculateTraceLinks_bigramInText_matchesEqualsOne(SimilarityMeasure measure){
         List<String> entityNameParts = new ArrayList<>();
         entityNameParts.add("Test");
         entityNameParts.add("Entity");
@@ -64,7 +68,7 @@ public class TraceLinkCalculatorTest {
 
     @ParameterizedTest
     @EnumSource(SimilarityMeasure.class)
-    public void calculateTraceLinks_trigramInText_matchesEqualsThree(SimilarityMeasure measure){
+    void calculateTraceLinks_trigramInText_matchesEqualsThree(SimilarityMeasure measure){
         List<String> entityNameParts = new ArrayList<>();
         entityNameParts.add("Another");
         entityNameParts.add("Test");

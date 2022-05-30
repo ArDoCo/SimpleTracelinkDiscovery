@@ -28,9 +28,9 @@ public class TraceLinkCalculator {
 
         for (int i = 0; i<ngram1.length; i++){
             if(similarityMeasure.equals(LEVENSHTEIN)) {
-                match += isLevenshteinSimilar(ngram1[i].toLowerCase(), ngram2[i].toLowerCase(), similarityThreshold) ? 1 : 0;
+                match += Boolean.TRUE.equals(isLevenshteinSimilar(ngram1[i].toLowerCase(), ngram2[i].toLowerCase(), similarityThreshold)) ? 1 : 0;
             } else {
-                match += isJaroWinklerSimilar(ngram1[i].toLowerCase(), ngram2[i].toLowerCase(), similarityThreshold) ? 1 : 0;
+                match += Boolean.TRUE.equals(isJaroWinklerSimilar(ngram1[i].toLowerCase(), ngram2[i].toLowerCase(), similarityThreshold)) ? 1 : 0;
             }
         }
 

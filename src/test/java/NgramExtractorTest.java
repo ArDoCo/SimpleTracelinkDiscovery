@@ -21,33 +21,33 @@ public class NgramExtractorTest {
     }
 
     @Test
-    public void ngrams_emptyString_emptyNgramList(){
+    void ngrams_emptyString_emptyNgramList(){
         List<String[]> ngrams = NgramExtractor.ngrams(testArrays.get(0), 3);
         Assertions.assertEquals(0, ngrams.size());
     }
 
     @Test
-    public void ngrams_emptyStringList_emptyNgramList(){
+    void ngrams_emptyStringList_emptyNgramList(){
         ArrayList testList = new ArrayList( Arrays.asList(testArrays.get(0).split(" ")));
         List<String[]> ngrams = NgramExtractor.ngrams(testList, 3);
         Assertions.assertEquals(0, ngrams.size());
     }
 
     @Test
-    public void ngrams_notEnoughWordsInString_emptyNgramList(){
+    void ngrams_notEnoughWordsInString_emptyNgramList(){
         List<String[]> ngrams = NgramExtractor.ngrams(testArrays.get(1), 3);
         Assertions.assertEquals(0, ngrams.size());
     }
 
     @Test
-    public void ngrams_notEnoughWordsInList_emptyNgramList(){
+    void ngrams_notEnoughWordsInList_emptyNgramList(){
         ArrayList testList = new ArrayList( Arrays.asList(testArrays.get(1).split(" ")));
         List<String[]> ngrams = NgramExtractor.ngrams(testList, 3);
         Assertions.assertEquals(0, ngrams.size());
     }
 
     @Test
-    public void ngrams_nIsZero_throwIllegalArgumentException(){
+    void ngrams_nIsZero_throwIllegalArgumentException(){
         ArrayList testList = new ArrayList( Arrays.asList(testArrays.get(2).split(" ")));
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -60,15 +60,13 @@ public class NgramExtractorTest {
     }
 
     @Test
-    public void ngrams1_nIsZero_throwIllegalArgumentException(){
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            NgramExtractor.ngrams(testArrays.get(2), 0);
-        });
+    void ngrams1_nIsZero_throwIllegalArgumentException(){
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+            NgramExtractor.ngrams(testArrays.get(2), 0));
 
         String expectedMessage = "n must be greater than 0";
         String actualMessage = exception.getMessage();
         Assertions.assertTrue(actualMessage.contains(expectedMessage));
     }
-
-
 }

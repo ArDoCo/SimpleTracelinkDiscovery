@@ -24,7 +24,22 @@ public class TraceLink implements Comparable<TraceLink>{
         this.matches = matches;
     }
     @Override
-    public int compareTo(TraceLink o) {
-        return Double.valueOf(this.matches).compareTo(Double.valueOf(o.getMatches()));
+    public int compareTo(TraceLink t) {
+        return Double.compare(this.matches, t.getMatches());
+    }
+    @Override
+    public boolean equals(Object o){
+        if(o == this){
+            return true;
+        }
+
+        if(!(o instanceof TraceLink)){
+            return false;
+        }
+
+        TraceLink t = (TraceLink) o;
+        return (this.getMatches() == t.getMatches() &&
+                this.getDocSection().getSectionNumber() == t.getDocSection().getSectionNumber() &&
+                this.getModelEntity().getId() == t.getModelEntity().getId());
     }
 }

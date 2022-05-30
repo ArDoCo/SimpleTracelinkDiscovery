@@ -14,13 +14,13 @@ public class DocumentationLoaderTest {
     }
 
     @Test
-    public void load_sectionNumber_startsWithOne(){
+    void load_sectionNumber_startsWithOne(){
         int n = documentationLoader.getDocumentationSections().get(0).getSectionNumber();
         Assertions.assertEquals(1, n);
     }
 
     @Test
-    public void load_sectionNumber_oneMoreThanListIndex(){
+    void load_sectionNumber_oneMoreThanListIndex(){
         for(int i = 0; i<documentationLoader.getDocumentationSections().size(); i++){
             int n = documentationLoader.getDocumentationSections().get(i).getSectionNumber();
             Assertions.assertEquals(n, (i+1));

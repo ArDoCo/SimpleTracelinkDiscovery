@@ -18,7 +18,7 @@ public class ModelLoaderTest {
     }
 
     @Test
-    public void modelEntityList_entityList_notNull(){
+    void modelEntityList_entityList_notNull(){
         Assertions.assertNotNull(modelLoader.modelEntityList());
     }
 }

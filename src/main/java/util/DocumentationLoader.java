@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class DocumentationLoader{
 
     private File documentationFile;
-    private final static Logger LOGGER = Logger.getLogger(DocumentationLoader.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DocumentationLoader.class.getName());
     private List<DocumentationSection> documentationSections;
 
     public DocumentationLoader(File documentationFile) {
