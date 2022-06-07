@@ -19,4 +19,4 @@ The table below shows the results with a match count threshold of 1 and a simila
 | Media Store | 1.0 | 0.62 | 0.77 |
 | TeaStore | 0.94 | 0.57 | 0.71 |
 | TEAMMATES | 0.89 | 0.57 | 0.70 |
-| BigBlueButton | 0.38 | 0.17 | 0.24 |
+| BigBlueButton | 0.88 | 0.44 | 0.59 |
