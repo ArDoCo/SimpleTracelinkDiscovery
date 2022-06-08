@@ -12,15 +12,20 @@ import io.github.ardoco.simpletracelinkdiscovery.util.ModelLoader;
 import io.github.ardoco.simpletracelinkdiscovery.util.TraceLinkCalculator;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import static io.github.ardoco.simpletracelinkdiscovery.entity.SimilarityMeasure.*;
 
 class EvaluationIT {
+    private static final Logger logger = LoggerFactory.getLogger(EvaluationIT.class);
+
     @DisplayName("Evaluate TLR")
     @ParameterizedTest(name = "Evaluating {0} (Text)")
     @EnumSource(value = Project.class)
@@ -59,10 +64,14 @@ class EvaluationIT {
         EvaluationResult evaluationResult = new EvaluationResult(tp, fp, (n - tp));
         Assertions.assertNotNull(evaluationResult);
 
-        System.out.println(project.name());
-        System.out.println("precision: " + evaluationResult.precision());
-        System.out.println("recall: " + evaluationResult.recall());
-        System.out.println("f1-score: " + evaluationResult.f1());
+        if (logger.isInfoEnabled()) {
+            var logBuilder = new StringBuilder(project.name());
+            logBuilder.append("\nPrecision: ").append(String.format(Locale.ENGLISH, "%.2f", evaluationResult.precision()));
+            logBuilder.append("\nRecall:    ").append(String.format(Locale.ENGLISH, "%.2f", evaluationResult.recall()));
+            logBuilder.append("\nF1-Score:  ").append(String.format(Locale.ENGLISH, "%.2f", evaluationResult.f1()));
+            logger.info(logBuilder.toString());
+        }
+
     }
 
     private Boolean isCorrectLink(GoldStandard goldstandard, TraceLink tracelink) {
