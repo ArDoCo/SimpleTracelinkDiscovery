@@ -1,5 +1,5 @@
 # SimpleTracelinkDiscovery
-Simple Tracelink Discovery (STD) is a tool for Traceability Link Recovery.
+Simple Tracelink Discovery (STD) is a simple approach for Traceability Link Recovery. Its intended use is for linking informal textual software architecture documentation and software architecture models, i.e., PCM.
 
 ## Basic Functionality
 STD calculates trace links between a software documentation and a model by matching the model entity names and its n-grams with words and n-grams in the documentation lines.
@@ -11,7 +11,7 @@ If this value is greater than or equal to a defined similarity threshold, a matc
 Analogously, the Jaro-Winkler Similarity can be used instead of the normalized Levenshtein Distance.
 
 ## Evaluation Results
-We evaluated the traceability link recovery on 4 open source projects.
+We evaluated the traceability link recovery on four open source projects. See also [ArDoCo/Benchmark](https://github.com/ArDoCo/Benchmark).
 The table below shows the results with a match count threshold of 1 and a similarity threshold of 0.9 for the normalized Levenshtein Distance.
 
 | Project | precision | recall | f1-score |
