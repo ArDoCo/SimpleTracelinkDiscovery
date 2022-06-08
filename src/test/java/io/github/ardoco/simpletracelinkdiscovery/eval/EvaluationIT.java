@@ -6,10 +6,12 @@ import edu.kit.kastel.mcse.ardoco.core.model.PcmXMLModelConnector;
 import io.github.ardoco.simpletracelinkdiscovery.entity.ModelEntity;
 import io.github.ardoco.simpletracelinkdiscovery.entity.TraceLink;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 import io.github.ardoco.simpletracelinkdiscovery.util.DocumentationLoader;
 import io.github.ardoco.simpletracelinkdiscovery.util.ModelLoader;
 import io.github.ardoco.simpletracelinkdiscovery.util.TraceLinkCalculator;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,12 +21,13 @@ import java.util.List;
 import static io.github.ardoco.simpletracelinkdiscovery.entity.SimilarityMeasure.*;
 
 class EvaluationIT {
-    private final String repoFilePath = "./src/test/resources/mediastore/original_model/ms.repository";
-    private final String goldstandardPath = "./src/test/resources/mediastore/goldstandard.csv";
-    private final String documentationPath = "./src/test/resources/mediastore/mediastore.txt";
-
-    @Test
-    void evaluate() throws ReflectiveOperationException, IOException {
+    @DisplayName("Evaluate TLR")
+    @ParameterizedTest(name = "Evaluating {0} (Text)")
+    @EnumSource(value = Project.class)
+    void evaluate(Project project) throws ReflectiveOperationException, IOException {
+        var repoFilePath = project.getModel();
+        var documentationPath = project.getTextFile();
+        var goldStandardPath = project.getGoldStandard();
 
         // load model
         File repoFile = new File(repoFilePath);
@@ -39,7 +42,7 @@ class EvaluationIT {
         Collections.sort(traceLinks, Collections.reverseOrder());
 
         // evaluate
-        GoldStandard goldstandard = new GoldStandard(new File(goldstandardPath));
+        GoldStandard goldstandard = new GoldStandard(new File(goldStandardPath));
         int n = goldstandard.getTotalNumberOfLinks();
         int tp = 0;
         int fp = 0;
@@ -56,6 +59,7 @@ class EvaluationIT {
         EvaluationResult evaluationResult = new EvaluationResult(tp, fp, (n - tp));
         Assertions.assertNotNull(evaluationResult);
 
+        System.out.println(project.name());
         System.out.println("precision: " + evaluationResult.precision());
         System.out.println("recall: " + evaluationResult.recall());
         System.out.println("f1-score: " + evaluationResult.f1());
