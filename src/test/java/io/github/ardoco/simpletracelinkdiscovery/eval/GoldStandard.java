@@ -1,7 +1,9 @@
-package eval;
+/* Licensed under MIT 2022. */
+package io.github.ardoco.simpletracelinkdiscovery.eval;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 import org.eclipse.collections.api.factory.Lists;
@@ -9,9 +11,9 @@ import org.eclipse.collections.api.list.ImmutableList;
 import org.eclipse.collections.api.list.MutableList;
 
 public class GoldStandard {
-    private File goldStandard;
+    private final File goldStandard;
 
-    private MutableList<MutableList<String>> sentence2instance = Lists.mutable.empty();
+    private final MutableList<MutableList<String>> sentence2instance = Lists.mutable.empty();
 
     public GoldStandard(File goldStanard) {
         goldStandard = goldStanard;
@@ -19,7 +21,7 @@ public class GoldStandard {
     }
 
     private void load() {
-        try (Scanner scan = new Scanner(goldStandard)) {
+        try (Scanner scan = new Scanner(goldStandard, StandardCharsets.UTF_8.name())) {
             while (scan.hasNextLine()) {
                 String line = scan.nextLine();
                 if (line == null || line.isBlank() || line.contains("modelElementID")) {
@@ -56,13 +58,11 @@ public class GoldStandard {
         return sentences.toImmutable();
     }
 
-    public int getTotalNumberOfLinks(){
+    public int getTotalNumberOfLinks() {
         int n = 0;
-        for(MutableList<String> instances: sentence2instance){
-            n+=instances.size();
+        for (MutableList<String> instances : sentence2instance) {
+            n += instances.size();
         }
         return n;
     }
 }
-
-

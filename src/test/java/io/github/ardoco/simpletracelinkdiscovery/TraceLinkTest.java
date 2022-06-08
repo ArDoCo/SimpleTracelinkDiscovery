@@ -1,11 +1,15 @@
-import entity.DocumentationSection;
-import entity.ModelEntity;
-import entity.TraceLink;
+/* Licensed under MIT 2022. */
+package io.github.ardoco.simpletracelinkdiscovery;
+
+import io.github.ardoco.simpletracelinkdiscovery.entity.DocumentationSection;
+import io.github.ardoco.simpletracelinkdiscovery.entity.ModelEntity;
+import io.github.ardoco.simpletracelinkdiscovery.entity.TraceLink;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 class TraceLinkTest {
     @Test
-    void equals_equalTraceLink_true(){
+    void equals_equalTraceLink_true() {
         ModelEntity entity = new ModelEntity(null, null, "entity1");
         DocumentationSection docSection = new DocumentationSection(null, 1);
         TraceLink tl1 = new TraceLink(entity, docSection, 1.0);
@@ -15,7 +19,7 @@ class TraceLinkTest {
     }
 
     @Test
-    void equals_differentMatchcount_false(){
+    void equals_differentMatchcount_false() {
         ModelEntity entity = new ModelEntity(null, null, "entity1");
         DocumentationSection docSection = new DocumentationSection(null, 1);
         TraceLink tl1 = new TraceLink(entity, docSection, 1.0);
@@ -25,7 +29,7 @@ class TraceLinkTest {
     }
 
     @Test
-    void equals_differentEntityIdOrSectionNumber_false(){
+    void equals_differentEntityIdOrSectionNumber_false() {
         ModelEntity entity1 = new ModelEntity(null, null, "entity1");
         ModelEntity entity2 = new ModelEntity(null, null, "entity2");
         DocumentationSection docSection1 = new DocumentationSection(null, 1);

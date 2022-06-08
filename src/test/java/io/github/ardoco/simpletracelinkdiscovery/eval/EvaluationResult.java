@@ -1,4 +1,5 @@
-package eval;
+/* Licensed under MIT 2022. */
+package io.github.ardoco.simpletracelinkdiscovery.eval;
 
 public class EvaluationResult {
     int fn;
@@ -11,7 +12,7 @@ public class EvaluationResult {
         this.tp = tp;
     }
 
-    public EvaluationResult(){
+    public EvaluationResult() {
         this.fn = 0;
         this.fp = 0;
         this.tp = 0;
@@ -41,15 +42,15 @@ public class EvaluationResult {
         this.tp = tp;
     }
 
-    public double precision(){
-        return (double) tp/(tp+fp);
+    public double precision() {
+        return (double) tp / (tp + fp);
     }
 
-    public double recall(){
-        return (double) tp/(tp+fn);
+    public double recall() {
+        return (double) tp / (tp + fn);
     }
 
-    public double f1(){
-        return (2*precision()*recall())/(precision()+recall());
+    public double f1() {
+        return (2 * precision() * recall()) / (precision() + recall());
     }
 }
