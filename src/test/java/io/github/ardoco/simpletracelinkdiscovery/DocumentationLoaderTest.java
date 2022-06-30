@@ -13,7 +13,7 @@ class DocumentationLoaderTest {
 
     @BeforeAll
     public static void setUp() {
-        documentationLoader = new DocumentationLoader(new File("./src/test/resources/teastore/teastore.txt"));
+        documentationLoader = new DocumentationLoader(new File("./src/test/resources/benchmark/teastore/teastore.txt"));
     }
 
     @Test
