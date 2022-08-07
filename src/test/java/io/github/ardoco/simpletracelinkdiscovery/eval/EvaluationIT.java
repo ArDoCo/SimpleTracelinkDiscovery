@@ -1,15 +1,18 @@
 /* Licensed under MIT 2022. */
 package io.github.ardoco.simpletracelinkdiscovery.eval;
 
-import edu.kit.kastel.mcse.ardoco.core.model.IModelConnector;
-import edu.kit.kastel.mcse.ardoco.core.model.PcmXMLModelConnector;
+import static io.github.ardoco.simpletracelinkdiscovery.entity.SimilarityMeasure.LEVENSHTEIN;
+
 import io.github.ardoco.simpletracelinkdiscovery.entity.ModelEntity;
 import io.github.ardoco.simpletracelinkdiscovery.entity.TraceLink;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import io.github.ardoco.simpletracelinkdiscovery.util.DocumentationLoader;
 import io.github.ardoco.simpletracelinkdiscovery.util.ModelLoader;
 import io.github.ardoco.simpletracelinkdiscovery.util.TraceLinkCalculator;
+import edu.kit.kastel.mcse.ardoco.core.api.data.model.ModelConnector;
+import edu.kit.kastel.mcse.ardoco.core.model.PcmXMLModelConnector;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.slf4j.Logger;
@@ -20,8 +23,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
-import static io.github.ardoco.simpletracelinkdiscovery.entity.SimilarityMeasure.*;
 
 class EvaluationIT {
     private static final Logger logger = LoggerFactory.getLogger(EvaluationIT.class);
@@ -36,7 +37,7 @@ class EvaluationIT {
 
         // load model
         File repoFile = new File(repoFilePath);
-        IModelConnector modelConnector = new PcmXMLModelConnector(repoFile);
+        ModelConnector modelConnector = new PcmXMLModelConnector(repoFile);
         ModelLoader modelLoader = new ModelLoader(modelConnector);
         List<ModelEntity> modelEntities = modelLoader.modelEntityList();
 
@@ -44,7 +45,7 @@ class EvaluationIT {
         DocumentationLoader documentationLoader = new DocumentationLoader(new File(documentationPath));
         List<TraceLink> traceLinks = TraceLinkCalculator.calculateTraceLinks(documentationLoader.getDocumentationSections(), modelEntities, 0.0, LEVENSHTEIN,
                 0.9);
-        Collections.sort(traceLinks, Collections.reverseOrder());
+        traceLinks.sort(Collections.reverseOrder());
 
         // evaluate
         GoldStandard goldstandard = new GoldStandard(new File(goldStandardPath));
@@ -65,11 +66,12 @@ class EvaluationIT {
         Assertions.assertNotNull(evaluationResult);
 
         if (logger.isInfoEnabled()) {
-            var logBuilder = new StringBuilder(project.name());
-            logBuilder.append("\nPrecision: ").append(String.format(Locale.ENGLISH, "%.2f", evaluationResult.precision()));
-            logBuilder.append("\nRecall:    ").append(String.format(Locale.ENGLISH, "%.2f", evaluationResult.recall()));
-            logBuilder.append("\nF1-Score:  ").append(String.format(Locale.ENGLISH, "%.2f", evaluationResult.f1()));
-            logger.info(logBuilder.toString());
+            String logBuilder = project.name() //
+                    + "\nPrecision: " + String.format(Locale.ENGLISH, "%.2f", evaluationResult.precision()) //
+                    + "\nRecall:    " + String.format(Locale.ENGLISH, "%.2f", evaluationResult.recall()) //
+                    + "\nF1-Score:  " + String.format(Locale.ENGLISH, "%.2f", evaluationResult.f1()) //
+            ;
+            logger.info(logBuilder);
         }
 
     }
