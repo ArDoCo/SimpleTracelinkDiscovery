@@ -52,6 +52,8 @@ class EvaluationIT {
         int n = goldstandard.getTotalNumberOfLinks();
         int tp = 0;
         int fp = 0;
+        int fn = n - tp;
+        int tn = (n*modelEntities.size()) - tp - fp - fn;
 
         for (TraceLink traceLink : traceLinks) {
             if (isCorrectLink(goldstandard, traceLink)) {
@@ -62,16 +64,27 @@ class EvaluationIT {
         }
 
         // create and print result
-        EvaluationResult evaluationResult = new EvaluationResult(tp, fp, (n - tp));
+
+        EvaluationResult evaluationResult = new EvaluationResult(tp, fp, fn, tn);
         Assertions.assertNotNull(evaluationResult);
 
         if (logger.isInfoEnabled()) {
-            String logBuilder = project.name() //
-                    + "\nPrecision: " + String.format(Locale.ENGLISH, "%.3f", evaluationResult.precision()) //
-                    + "\nRecall:    " + String.format(Locale.ENGLISH, "%.3f", evaluationResult.recall()) //
-                    + "\nF1-Score:  " + String.format(Locale.ENGLISH, "%.3f", evaluationResult.f1()) //
-            ;
-            logger.info(logBuilder);
+            String linebreak = System.lineSeparator();
+            StringBuilder logBuilder = new StringBuilder(project.name());
+            logBuilder.append(linebreak);
+            logBuilder.append(String.format(Locale.ENGLISH, "Precision:   %.3f", evaluationResult.precision()));
+            logBuilder.append(linebreak);
+            logBuilder.append(String.format(Locale.ENGLISH, "Recall:      %.3f", evaluationResult.recall()));
+            logBuilder.append(linebreak);
+            logBuilder.append(String.format(Locale.ENGLISH, "F1-Score:    %.3f", evaluationResult.f1()));
+            logBuilder.append(linebreak);
+            logBuilder.append(String.format(Locale.ENGLISH, "Accuracy:    %.3f", evaluationResult.accuracy()));
+            logBuilder.append(linebreak);
+            logBuilder.append(String.format(Locale.ENGLISH, "Specificity: %.3f", evaluationResult.specificity()));
+            logBuilder.append(linebreak);
+            logBuilder.append(String.format(Locale.ENGLISH, "Phi:         %.3f", evaluationResult.phiCoefficient()));
+
+            logger.info(logBuilder.toString());
         }
 
     }
