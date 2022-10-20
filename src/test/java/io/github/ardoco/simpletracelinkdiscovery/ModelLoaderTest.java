@@ -16,7 +16,7 @@ class ModelLoaderTest {
 
     @BeforeAll
     public static void setUp() throws ReflectiveOperationException, IOException {
-        File repoFile = new File("./src/test/resources/benchmark/teastore/pcm/teastore.repository");
+        File repoFile = new File("./src/test/resources/benchmark/teastore/model_2020/pcm/teastore.repository");
         ModelConnector modelConnector = new PcmXMLModelConnector(repoFile);
         modelLoader = new ModelLoader(modelConnector);
     }
