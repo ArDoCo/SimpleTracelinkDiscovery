@@ -67,9 +67,9 @@ class EvaluationIT {
 
         if (logger.isInfoEnabled()) {
             String logBuilder = project.name() //
-                    + "\nPrecision: " + String.format(Locale.ENGLISH, "%.2f", evaluationResult.precision()) //
-                    + "\nRecall:    " + String.format(Locale.ENGLISH, "%.2f", evaluationResult.recall()) //
-                    + "\nF1-Score:  " + String.format(Locale.ENGLISH, "%.2f", evaluationResult.f1()) //
+                    + "\nPrecision: " + String.format(Locale.ENGLISH, "%.3f", evaluationResult.precision()) //
+                    + "\nRecall:    " + String.format(Locale.ENGLISH, "%.3f", evaluationResult.recall()) //
+                    + "\nF1-Score:  " + String.format(Locale.ENGLISH, "%.3f", evaluationResult.f1()) //
             ;
             logger.info(logBuilder);
         }
