@@ -11,12 +11,13 @@ If this value is greater than or equal to a defined similarity threshold, a matc
 Analogously, the Jaro-Winkler Similarity can be used instead of the normalized Levenshtein Distance.
 
 ## Evaluation Results
-We evaluated the traceability link recovery on four open source projects. See also [ArDoCo/Benchmark](https://github.com/ArDoCo/Benchmark).
+We evaluated the traceability link recovery on five open source projects. See also [ArDoCo/Benchmark](https://github.com/ArDoCo/Benchmark).
 The table below shows the results with a match count threshold of 1 and a similarity threshold of 0.9 for the normalized Levenshtein Distance.
 
 | Project | precision | recall | f1-score |
 | - | - | - | - |
-| Media Store | 1.0 | 0.62 | 0.77 |
-| TeaStore | 0.94 | 0.57 | 0.71 |
-| TEAMMATES | 0.89 | 0.57 | 0.70 |
-| BigBlueButton | 0.88 | 0.44 | 0.59 |
+| Media Store | 1.000 | 0.383 | 0.554 |
+| TeaStore | 0.882 | 0.357 | 0.508 |
+| TEAMMATES | 0.759 | 0.451 | 0.566 |
+| BigBlueButton | 0.375 | 0.148 | 0.212 |
+| JabRef | 0.867 | 0.419 | 0.565 |
