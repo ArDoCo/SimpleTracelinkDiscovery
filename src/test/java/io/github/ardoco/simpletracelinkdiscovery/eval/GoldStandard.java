@@ -15,8 +15,8 @@ public class GoldStandard {
 
     private final MutableList<MutableList<String>> sentence2instance = Lists.mutable.empty();
 
-    public GoldStandard(File goldStanard) {
-        goldStandard = goldStanard;
+    public GoldStandard(File goldStandard) {
+        this.goldStandard = goldStandard;
         load();
     }
 
@@ -43,7 +43,9 @@ public class GoldStandard {
     }
 
     public ImmutableList<String> getModelInstances(int sentenceNo) {
-        // Index starts at 1
+        if (sentenceNo >= sentence2instance.size()) {
+            return Lists.immutable.empty();
+        }
         return sentence2instance.get(sentenceNo).toImmutable();
     }
 
