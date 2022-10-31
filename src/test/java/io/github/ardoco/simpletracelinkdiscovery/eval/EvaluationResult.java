@@ -64,4 +64,44 @@ public class EvaluationResult {
 
         return num.divide(denominator, MathContext.DECIMAL128).doubleValue();
     }
+
+    /**
+     * Calculates the maximum possible value of the phi coefficient given the four values of the confusion matrix (TP,
+     * FP, FN, TN).
+     *
+     * @see <a href="https://link.springer.com/article/10.1007/BF02288588">Paper about PhiMax by Ferguson (1941)</a>
+     * @see <a href="https://journals.sagepub.com/doi/abs/10.1177/001316449105100403">Paper about Phi/PhiMax by
+     *      Davenport et al. (1991)<</a>
+     * @return The maximum possible value of phi.
+     */
+    public double phiCoefficientMax() {
+        var tp = BigDecimal.valueOf(this.tp);
+        var fp = BigDecimal.valueOf(this.fp);
+        var fn = BigDecimal.valueOf(this.fn);
+        var tn = BigDecimal.valueOf(this.tn);
+
+        var test = fn.add(tp).compareTo(fp.add(tp)) >= 0;
+        var nominator = (fp.add(tn)).multiply(tp.add(fp)).sqrt(MathContext.DECIMAL128);
+        var denominator = (fn.add(tn)).multiply(tp.add(fn)).sqrt(MathContext.DECIMAL128);
+        if (test) {
+            // standard case
+            return nominator.divide(denominator, MathContext.DECIMAL128).doubleValue();
+        } else {
+            // if test is not true, you have to swap nominator and denominator as then you have to mirror the confusion
+            // matrix (,i.e., swap TP and TN)
+            return denominator.divide(nominator, MathContext.DECIMAL128).doubleValue();
+        }
+    }
+
+    /**
+     * Calculates the normalized phi correlation coefficient value that is phi divided by its maximum possible value.
+     *
+     * @see <a href="https://journals.sagepub.com/doi/abs/10.1177/001316449105100403"> Paper about Phi/PhiMax</a> </a>
+     * @return The value of Phi/PhiMax
+     */
+    public double phiOverPhiMax() {
+        var phi = phiCoefficient();
+        var phiMax = phiCoefficientMax();
+        return phi / phiMax;
+    }
 }

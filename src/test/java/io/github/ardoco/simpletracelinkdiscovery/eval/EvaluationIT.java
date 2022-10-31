@@ -53,7 +53,7 @@ class EvaluationIT {
         int tp = 0;
         int fp = 0;
         int fn = n - tp;
-        int tn = (n*modelEntities.size()) - tp - fp - fn;
+        int tn = (n * modelEntities.size()) - tp - fp - fn;
 
         for (TraceLink traceLink : traceLinks) {
             if (isCorrectLink(goldstandard, traceLink)) {
@@ -83,6 +83,8 @@ class EvaluationIT {
             logBuilder.append(String.format(Locale.ENGLISH, "Specificity: %.3f", evaluationResult.specificity()));
             logBuilder.append(linebreak);
             logBuilder.append(String.format(Locale.ENGLISH, "Phi:         %.3f", evaluationResult.phiCoefficient()));
+            logBuilder.append(linebreak);
+            logBuilder.append(String.format(Locale.ENGLISH, "PhiNorm:     %.3f", evaluationResult.phiOverPhiMax()));
 
             logger.info(logBuilder.toString());
         }
